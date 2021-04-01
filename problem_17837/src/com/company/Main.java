@@ -70,7 +70,7 @@ class Tile{
     public int applyMoveInfo(MoveInfo moveInfo){
         int movedPieceCount = moveInfo.pieces.size();
 
-        if(moveInfo.reverseFlag == false){
+        if(!moveInfo.reverseFlag){
             for(int i=movedPieceCount-1; i>=0; i--){
                 Piece piece = moveInfo.pieces.get(i);
                 piece.row = moveInfo.nextRow;
@@ -94,21 +94,15 @@ class Tile{
     }
 
     public boolean isBlueTile(){
-        if(tileSet == BLUE_TILE) return true;
-
-        return false;
+        return tileSet == BLUE_TILE;
     }
 
     public boolean isRedTile(){
-        if(tileSet == RED_TILE) return true;
-
-        return false;
+        return tileSet == RED_TILE;
     }
 
     public boolean isWhiteTile(){
-        if(tileSet == WHITE_TILE) return true;
-
-        return false;
+        return tileSet == WHITE_TILE;
     }
 
     public String show(){
@@ -271,13 +265,13 @@ class Board{
                     moveInfo.meetBlueTileSecond(); // 가만히
                 }else if(nextTile.isRedTile()){
                     moveInfo.meetRedTile();
-                }else if(nextTile.isWhiteTile()){
-                    // do nothing
+                }else {
+                    nextTile.isWhiteTile();// do nothing
                 }
             }else if(nextTile.isRedTile()){
                 moveInfo.meetRedTile();
-            }else if(nextTile.isWhiteTile()){
-                // do nothing
+            }else {
+                nextTile.isWhiteTile();// do nothing
             }
 
             if(tiles[moveInfo.nextRow][moveInfo.nextColumn].applyMoveInfo(moveInfo) >= 4){
@@ -313,9 +307,9 @@ public class Main {
         gameBoard.initBoard();
 
         int turnCount = 0;
-        while(gameBoard.isEnd() == false){
+        while(!gameBoard.isEnd()){
             turnCount++;
-            if(gameBoard.doNextTurn() == false){
+            if(!gameBoard.doNextTurn()){
                 break;
             }
             if(DEBUG){
